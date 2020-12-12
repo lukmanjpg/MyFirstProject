@@ -114,52 +114,51 @@ formClose.onclick = function(){
 
 
 
-// let formInput = document.querySelector('.form__tel');
-// let btn = document.querySelector('.form__button');
-// let error = document.querySelector('.error__hold');
-// let errorText = document.querySelector('.error__text');
-// let emptyText = document.querySelector('.empty__text');
-// let rightText = document.querySelector('.right__text');
-// btn.onclick = function(){
-//   event.preventDefault();
-//   if (formInput.value == '') {
-//     error.classList.add('error__hold__active');
-//     errorText.classList.remove('error__active');
-//     emptyText.classList.add('empty__active');
-//     rightText.classList.remove('right__active');
-//     clearTimeout(callFunc);
-//   }else if(/[A-Za-z]/.test(formInput.value)) {
-//     error.classList.add('error__hold__active');
-//     errorText.classList.add('error__active');
-//     rightText.classList.remove('right__active');
-//     emptyText.classList.remove('empty__active');
-//   }else if (formInput.value.length == 10) {
-//     error.classList.add('error__hold__active');
-//     errorText.classList.remove('error__active');
-//     emptyText.classList.remove('empty__active');
-//     rightText.classList.add('right__active');
-//     let second = document.querySelector('.second');
-//     plus = 28;
-//     let callTime = setInterval(callFunc, 1000);
-//     function callFunc(){
-//       if (plus == 0) {
-//         clearInterval(callTime);
-//         alert('время вышло');
-//       }else{
-//         --plus;
-//         second.innerHTML = plus + ':';
-//       }
-//     }
+let formInput = document.querySelector('.form__tel');
+let btn = document.querySelector('.form__button');
+let error = document.querySelector('.error__hold');
+let errorText = document.querySelector('.error__text');
+let emptyText = document.querySelector('.empty__text');
+let rightText = document.querySelector('.right__text');
+btn.onclick = function(){
+  event.preventDefault();
+  if (formInput.value == '') {
+    error.classList.add('error__hold__active');
+    errorText.classList.remove('error__active');
+    emptyText.classList.add('empty__active');
+    rightText.classList.remove('right__active');
+    clearTimeout(callFunc);
+  }else if(/[A-Za-z]/.test(formInput.value)) {
+    error.classList.add('error__hold__active');
+    errorText.classList.add('error__active');
+    rightText.classList.remove('right__active');
+    emptyText.classList.remove('empty__active');
+  }else if (formInput.value.length == 10) {
+    error.classList.add('error__hold__active');
+    errorText.classList.remove('error__active');
+    emptyText.classList.remove('empty__active');
+    rightText.classList.add('right__active');
+    let second = document.querySelector('.second');
+    plus = 28;
+    let callTime = setInterval(callFunc, 1000);
+    function callFunc(){
+      if (plus == 0) {
+        clearInterval(callTime);
+      }else{
+        --plus;
+        second.innerHTML = plus + ':';
+      }
+    }
 
-//   }else {
-//     error.classList.add('error__hold__active');
-//     errorText.classList.add('error__active');
-//     emptyText.classList.remove('empty__active');
-//     rightText.classList.remove('right__active');
-//   }
+  }else {
+    error.classList.add('error__hold__active');
+    errorText.classList.add('error__active');
+    emptyText.classList.remove('empty__active');
+    rightText.classList.remove('right__active');
+  }
 
   
-// }
+}
 
 
 // Кнопка Подпишитесь
@@ -179,16 +178,4 @@ closeSButton.onclick = function(){
 
 
 
-// Валидация формы
-let formLogin = document.querySelector('#formLogin');
 
-formLogin.onsubmit = function(){
-  for(let i = 0; i < formLogin.elements.length -1; i++){
-    let elementsName = formLogin.elements[i].name;
-    let selector = `input[name="${elementsName}"]`;
-    document.querySelector(selector).style.borderColor = "yellow";
-    if (formLogin.elements[i].value == '') {
-      document.querySelector(selector).style.borderColor = 'red';
-    }
-  }
-}
