@@ -129,6 +129,7 @@ ul{
 }
 .burger__holder{
 	display: none;
+	z-index: 999;
 }
 .navigation__right{
 	display: flex;
