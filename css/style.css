@@ -386,6 +386,7 @@ ul{
 	align-items: flex-end;
 	background-size: cover;
 	background-position: center;
+	cursor: pointer;
 }
 .cat1{
 	background-image: url(../img/fruits.jpg);
