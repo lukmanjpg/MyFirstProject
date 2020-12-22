@@ -1,98 +1,4 @@
-$(document).ready(function($) {
-	$('.cat1').click(function(event) {
-		$('.active__hold1').toggleClass('active');
-	});
-});
-$(document).ready(function($) {
-	$('.cat2').click(function(event) {
-		$('.active__hold2').toggleClass('active');
-	});
-});
-$(document).ready(function($) {
-	$('.cat3').click(function(event) {
-		$('.active__hold3').toggleClass('active');
-	});
-});
-$(document).ready(function($) {
-	$('.cat4').click(function(event) {
-		$('.active__hold4').toggleClass('active');
-	});
-});
-$(document).ready(function($) {
-	$('.cat5').click(function(event) {
-		$('.active__hold5').toggleClass('active');
-	});
-});
-$(document).ready(function($) {
-	$('.cat6').click(function(event) {
-		$('.active__hold6').toggleClass('active');
-	});
-});
-$(document).ready(function($) {
-	$('.burger__menu').click(function(event) {
-		$('.navigation__list').toggleClass('target');
-	});
-});
-$(document).ready(function($) {
-	$('.icon').click(function(event) {
-		$('.dropdown__hold').toggleClass('list__drop');
-	});
-});
-
-// Бургер Меню
-$(document).ready(function($) {
-	$('.burger__holder').click(function(event) {
-		$('.navigation__right').toggleClass('active__burger');
-	});
-});
-
-
-// Скролл
-$(function(){
-	$(window).scroll(function(){
-  	if($(document).scrollTop()>$(window).height()){
-    	$('.scroll').show();
-    }else{
-    	$('.scroll').hide();
-    }
-  });
-  $('.scroll').click(function(){
-  	$('html,body').animate({scrollTop: 0}, 1000);
-  });
-});
-
-
-// модальное окно
-let popap = document.querySelector('.popap');
-function modal2 () {
-	popap.classList.add('popap__active');
-}
-setTimeout(modal2, 10000);
-let popapClose = document.querySelector('.popap__close');
-popapClose.onclick = function (){
-	popap.classList.remove('popap__active');
-}
-// время изчесновения модального окна после нажатии на кнопки и скролла
-let popap__scroll = document.querySelector('.popap__button__title');
-popap__scroll.onclick = function(){
-	setTimeout(function(){
-		popap.classList.remove('popap__active');
-	},1000);
-};
-
-
-// прокрутка до блока с продуктами
-$(".popap__button__title").click(function() {
-    $('html, body').animate({
-        scrollTop: $(".price .wrapper").offset().top
-    }, 1000);
-});
-
-
-
-
-
-// Форма Обратной связи
+// Форма Обратной Связи
 let formShow = document.querySelector('.header__tel');
 let formWrap = document.querySelector('.form__wrap');
 let formHold = document.querySelector('.form__hold');
@@ -144,6 +50,7 @@ btn.onclick = function(){
     function callFunc(){
       if (plus == 0) {
         clearInterval(callTime);
+        alert('время вышло');
       }else{
         --plus;
         second.innerHTML = plus + ':';
@@ -176,6 +83,22 @@ closeSButton.onclick = function(){
   modal.classList.remove('modal__active');
 }
 
-
-
-
+// Скролл
+$(function(){
+  $(window).scroll(function(){
+    if($(document).scrollTop()>$(window).height()){
+      $('.scroll').show();
+    }else{
+      $('.scroll').hide();
+    }
+  });
+  $('.scroll').click(function(){
+    $('html,body').animate({scrollTop: 0}, 1000);
+  });
+});
+// Бургер Меню
+let burger = document.querySelector('.burger__holder');
+let navigationRight = document.querySelector('.navigation__right');
+burger.onclick = function (){
+  navigationRight.classList.toggle('active__burger');
+}
