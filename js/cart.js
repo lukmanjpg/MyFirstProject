@@ -102,3 +102,32 @@ let navigationRight = document.querySelector('.navigation__right');
 burger.onclick = function (){
   navigationRight.classList.toggle('active__burger');
 }
+// Вывод продуктов из корзины
+const URLS = {
+  getGoods:'https://api.mocki.io/v1/423624c8'
+}
+let cart = {};
+let datas = [];
+
+
+
+function getGoods() {
+  fetch(URLS.getGoods)
+  .then(response => {
+    if (response.ok) {
+      return response.json(); 
+    }
+    else{
+      alert('Error');
+    }
+  })
+  .then(data => showGoods(data))
+}
+function checkCart(){
+  let result = localStorage.getItem('cart');
+  if (result != null) {
+    cart = JSON.parse(result);
+  }
+}
+getGoods();
+checkCart();

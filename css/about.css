@@ -473,6 +473,7 @@ ul{
 	background-position: center;
 	background-size: cover;
 	height: 321px;
+	overflow: hidden;
 }
 .time .wrapper{
 	height: 321px;
@@ -751,6 +752,7 @@ ul{
 	background: #9EC06F;
 	border-radius: 50%;
 	transform: translate(-50%);
+	cursor: pointer;
 }
 .scroll__img{
 	width: 20px;
@@ -1567,7 +1569,7 @@ ul{
 
 
 .slider__top.scroll__elem{
-	transform: translateX(-300%);
+	transform: translateX(-400%);
 	opacity: 0;
 	transition: 0.5s ease;
 }
@@ -1576,7 +1578,7 @@ ul{
 	opacity: 1;
 }
 .slider__title.scroll__elem{
-	transform: translateX(-300%);
+	transform: translateX(-400%);
 	opacity: 0;
 	transition: 0.5s ease;
 }
@@ -1619,6 +1621,15 @@ ul{
 .newsletter__right.anim{
 	transform: translateX(0);
 	opacity: 1;
+}
+.time__holder.scroll__elem{
+	transform: translateY(100%);
+	opacity: 0;
+	transition: 0.4s ease;
+}
+.time__holder.anim{
+	opacity: 1;
+	transform: translateY(0);
 }
 .fromLeft.scroll__elem{
 	transform: translateX(-200%);

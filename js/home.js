@@ -4,11 +4,6 @@ $(document).ready(function($) {
 	});
 });
 $(document).ready(function($) {
-	$('.cat2').click(function(event) {
-		$('.active__hold2').toggleClass('active');
-	});
-});
-$(document).ready(function($) {
 	$('.cat3').click(function(event) {
 		$('.active__hold3').toggleClass('active');
 	});
@@ -177,7 +172,6 @@ closeSButton.onclick = function(){
 }
 // Анимация при прокрутке страницы
 window.onload = function(){ 
-  scroll();
   window.addEventListener('scroll', scrollAnimation);
   let scrollElements = document.querySelectorAll('.scroll__elem');
   let clientHeight = document.documentElement.clientHeight;
@@ -190,7 +184,263 @@ window.onload = function(){
       }
     }
   }
+  scrollAnimation();
+}
+// Обработка покупок
+
+
+
+
+
+const URLS = {
+  getGoods:'https://api.mocki.io/v1/423624c8'
+}
+let cart = {};
+let datas = [];
+
+getGoods();
+checkCart();
+showMiniCart();
+
+function getGoods() {
+  fetch(URLS.getGoods)
+  .then(response => {
+    if (response.ok) {
+      return response.json(); 
+    }
+    else{
+      alert('Error');
+    }
+  })
+  .then(data => showGoods(data))
+}
+let data;
+function showGoods(data){
+  datas = data;
+  let out = '';
+  for(let i = 0; i < data.length; i++){
+       out += '<div class="price__item">';
+       out += '<div class="price__img__holder">';
+       out += '<img src="img/' + data[i].image + '" alt="">';
+       out += '</div>';
+       out += '<div class="price__item__holder">';
+       out += '<div class="price__effect__too">';
+       out += '<p class="price__item__name">'+ data[i].name +'</p>';
+       out += '<p class="price__item__price">' + data[i].cost +' <span>kg</span></p>';
+       out += '</div>';
+       out += '<button class="price__item__button" data-id="'+ data[i].id +'">Купить</button>'
+       out += '</div>';
+       out += '</div>';
+  }
+
+  document.querySelector('.price__holder').innerHTML = out;
+  let btns = document.querySelectorAll('.price__item__button');
+
+  for(let i = 0; i<btns.length; i++){
+       btns[i].addEventListener('click', addToCart);
+  }
 }
 
+function addToCart(){
+  let id = this.dataset.id;
+  if(cart[id] === undefined){
+    cart[id] = 1;
+  } else {
+    cart[id]++;
+  }
+  localStorage.setItem('cart', JSON.stringify(cart));
+  checkCart();
+showMiniCart();
+}
+
+function checkCart(){
+  let result = localStorage.getItem('cart');
+  if (result != null) {
+    cart = JSON.parse(result);
+  }
+}
+function showMiniCart(data){
+  let out = '';
+  let out2 = '';
+  for(let p in cart){
+    out += '<div class="lol">';
+    out += p;
+    out += '</div>';
+    out2 += '<div class="lol">';
+    out2 += cart[p];
+    out2 += '</div>';
+  }
+  let header = document.querySelector('.b1');
+  let header2 = document.querySelector('.b2');
+    header.innerHTML = out;
+    header2.innerHTML = out2;
+    
+}
+console.log(cart);
+// // 1 --- 5
+// // 2 --- 10
+// // 4 --- 5
+
+// // {
+// //  1: 2,
+// //  2: 5,
+// //  3: 3,
+// //  4: 5
+// // }
+// console.log(cart);
 
 
+// [{
+//   "id":2,
+//   "cost":80,
+//   "name":"Болгарский перец",
+//   "image":"bell_pepper.png",
+//   "units":"kg",
+//   "category":1,
+//   "description":"red"
+// },
+// {"id":1,
+// "cost":55,
+// "name":"Клубника",
+// "image":"strawberry.png",
+// "units":"kg",
+// "category":1,
+// "description":"red"
+// },
+// {"id":3,
+// "cost":15,
+// "name":"banana",
+// "image":"banana.jpg",
+// "units":"kg",
+// "category":1,
+// "description":"red"
+// },
+// {"id":4,
+// "cost":15,
+// "name":"Зеленая Фасоль",
+// "image":"green_bean.png",
+// "units":"kg",
+// "category":1,"description":"red"
+// },
+// {"id":4,
+// "cost":15,
+// "name":"Фиолетовая Капуста",
+// "image":"purple.png",
+// "units":"kg",
+// "category":1,"description":"red"
+// },
+// {"id":4,
+// "cost":15,
+// "name":"Помидор",
+// "image":"tomatos.png",
+// "units":"kg",
+// "category":1,"description":"red"
+// },
+// {"id":4,
+// "cost":15,
+// "name":"Брокколи",
+// "image":"broccoli.png",
+// "units":"kg",
+// "category":1,"description":"red"
+// },
+// {"id":4,
+// "cost":15,
+// "name":"Морковь",
+// "image":"Carrot.png",
+// "units":"kg",
+// "category":1,"description":"red"
+// },
+// {"id":4,
+// "cost":15,
+// "name":"Фруктовый сок",
+// "image":"fruct__juice.png",
+// "units":"kg",
+// "category":1,"description":"red"
+// },
+// ];
+
+
+
+
+
+
+
+
+
+
+
+// [
+//    {
+//       "id": 1,
+//       "name":"Болгарский перец",
+//       "cost":80,
+//       "units":"kg",
+//       "description":"red",
+//       "image":"bell_pepper.png",
+//       "category":1
+//    },
+//    {
+//       "id": 2,
+//       "name":"Клубника",
+//       "cost":15,
+//       "units":"kg",
+//       "description":"red",
+//       "image":"strawberry.png",
+//       "category":1
+//    },
+//    {
+//       "id": 3,
+//       "name":"Зеленая Фасоль",
+//       "cost":15,
+//       "units":"kg",
+//       "description":"red",
+//       "image":"green_bean.png",
+//       "category":1
+//    },
+//    {
+//       "id": 4,
+//       "name":"Фиолетовая Капуста",
+//       "cost":15,
+//       "units":"kg",
+//       "description":"red",
+//       "image":"purple.png",
+//       "category":1
+//    },
+//    {
+//       "id": 5,
+//       "name":"Помидор",
+//       "cost":15,
+//       "units":"kg",
+//       "description":"red",
+//       "image":"tomatos.png",
+//       "category":1
+//    },
+//    {
+//       "id": 6,
+//       "name":"Брокколи",
+//       "cost":15,
+//       "units":"kg",
+//       "description":"red",
+//       "image":"broccoli.png",
+//       "category":1
+//    },
+//    {
+//       "id": 7,
+//       "name":"Морковь",
+//       "cost":15,
+//       "units":"kg",
+//       "description":"red",
+//       "image":"Carrot.png",
+//       "category":1
+//    },
+//    {
+//       "id": 8,
+//       "name":"Фруктовый сок",
+//       "cost":15,
+//       "units":"kg",
+//       "description":"red",
+//       "image":"fruct__juice.png",
+//       "category":1
+//    }
+
+// ]

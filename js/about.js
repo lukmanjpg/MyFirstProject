@@ -127,7 +127,6 @@ gifClose.onclick = function(){
 }
 
 // Анимация при прокрутке страницы
-// Анимация при прокрутке страницы
 window.onload = function(){ 
   window.addEventListener('scroll', scrollAnimation);
   let scrollElements = document.querySelectorAll('.scroll__elem');
@@ -143,3 +142,5 @@ window.onload = function(){
   }
   scrollAnimation();
 }
+
+

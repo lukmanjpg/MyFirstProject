@@ -173,3 +173,18 @@ function callApiPost (data_object) {
     }
   })
 }
+window.onload = function(){ 
+  window.addEventListener('scroll', scrollAnimation);
+  let scrollElements = document.querySelectorAll('.scroll__elem');
+  let clientHeight = document.documentElement.clientHeight;
+  let result = clientHeight / 5;
+  let plusResult = window.pageYOffset + clientHeight - result;
+  function scrollAnimation(){
+   for(let i = 0;i<scrollElements.length;i++){
+      if (plusResult >= scrollElements[i].getBoundingClientRect().top) {
+        scrollElements[i].classList.add('anim');
+      }
+    }
+  }
+  scrollAnimation();
+}

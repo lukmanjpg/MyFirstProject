@@ -464,6 +464,7 @@ ul{
 	background: #9EC06F;
 	border-radius: 50%;
 	transform: translate(-50%);
+	cursor: pointer;
 }
 .scroll__img{
 	width: 20px;
