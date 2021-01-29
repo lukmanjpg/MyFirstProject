@@ -1,88 +1,3 @@
-// Форма Обратной Связи
-let formShow = document.querySelector('.header__tel');
-let formWrap = document.querySelector('.form__wrap');
-let formHold = document.querySelector('.form__hold');
-let formClose = document.querySelector('.form__close')
-formShow.onclick = function(){
-  formWrap.classList.add('form__wrap-active');
-  formHold.classList.add('form__hold-active');
-  formClose.classList.add('form__animation');
-  setTimeout(DeleteAnim,1600)
-  function DeleteAnim (){
-    formClose.classList.remove('form__animation');
-  }
-
-}
-formClose.onclick = function(){
-  formWrap.classList.remove('form__wrap-active');
-  formHold.classList.remove('form__hold-active');
-}
-
-
-
-let formInput = document.querySelector('.form__tel');
-let btn = document.querySelector('.form__button');
-let error = document.querySelector('.error__hold');
-let errorText = document.querySelector('.error__text');
-let emptyText = document.querySelector('.empty__text');
-let rightText = document.querySelector('.right__text');
-btn.onclick = function(){
-  event.preventDefault();
-  if (formInput.value == '') {
-    error.classList.add('error__hold__active');
-    errorText.classList.remove('error__active');
-    emptyText.classList.add('empty__active');
-    rightText.classList.remove('right__active');
-    clearTimeout(callFunc);
-  }else if(/[A-Za-z]/.test(formInput.value)) {
-    error.classList.add('error__hold__active');
-    errorText.classList.add('error__active');
-    rightText.classList.remove('right__active');
-    emptyText.classList.remove('empty__active');
-  }else if (formInput.value.length == 10) {
-    error.classList.add('error__hold__active');
-    errorText.classList.remove('error__active');
-    emptyText.classList.remove('empty__active');
-    rightText.classList.add('right__active');
-    let second = document.querySelector('.second');
-    plus = 28;
-    let callTime = setInterval(callFunc, 1000);
-    function callFunc(){
-      if (plus == 0) {
-        clearInterval(callTime);
-        alert('время вышло');
-      }else{
-        --plus;
-        second.innerHTML = plus + ':';
-      }
-    }
-
-  }else {
-    error.classList.add('error__hold__active');
-    errorText.classList.add('error__active');
-    emptyText.classList.remove('empty__active');
-    rightText.classList.remove('right__active');
-  }
-
-  
-}
-
-
-// Кнопка Подпишитесь
-let SignButton = document.querySelector('.header__email');
-let closeSButton = document.querySelector('.close__sign__modal');
-let modalHold = document.querySelector('.modal__hold');
-let body = document.querySelector('body');
-let modal = document.querySelector('.modal');
-SignButton.onclick = function(){
-  modalHold.classList.add('modal__wrapper');
-  modal.classList.add('modal__active');
-}
-closeSButton.onclick = function(){
-  modalHold.classList.remove('modal__wrapper');
-  modal.classList.remove('modal__active');
-}
-
 // Скролл
 $(function(){
   $(window).scroll(function(){
@@ -96,12 +11,6 @@ $(function(){
     $('html,body').animate({scrollTop: 0}, 1000);
   });
 });
-// Бургер Меню
-let burger = document.querySelector('.burger__holder');
-let navigationRight = document.querySelector('.navigation__right');
-burger.onclick = function (){
-  navigationRight.classList.toggle('active__burger');
-}
 // Вывод продуктов из корзины
 const URLS = {
   getGoods:'https://api.mocki.io/v1/423624c8'
@@ -111,23 +20,153 @@ let datas = [];
 
 
 
-function getGoods() {
+checkCart();
+getGoods();
+function getGoods(){
   fetch(URLS.getGoods)
   .then(response => {
     if (response.ok) {
-      return response.json(); 
-    }
-    else{
-      alert('Error');
+      return response.json();
+    }else {
+      alert('error');
     }
   })
-  .then(data => showGoods(data))
+  .then(data => {
+    datas = data;
+    showMiniCart();
+   showTotalCount(datas);
+  })
 }
 function checkCart(){
   let result = localStorage.getItem('cart');
   if (result != null) {
     cart = JSON.parse(result);
+  }else {
+    alert('пусто');
   }
 }
-getGoods();
-checkCart();
+function showMiniCart(){
+  let out = '';
+  for(let key in cart){
+    for(key2 in datas){
+      if(datas[key2].id == key){
+        out += '<div class="card__item">';
+        out += '<div data-id="'+ key +'" class="remove__product">x</div>';
+        out += '<div class="product__img-holder">';
+        out += '<img src="img/' + datas[key2].image + '" alt="">'
+        out += '</div>';
+        out += '<div class="product__info">';
+        out += '<p class="product__name">'+ datas[key2].name +'</p>';
+        out += '<p class="product__describe">'+ datas[key2].units +'</p>';
+        out += '</div>';
+        out += '<p class="product__price">'+ datas[key2].cost +'</p>';
+        out += '<input type="number" id="'+ key +'" class="count__price" value="'+ cart[key] +'" min="1" max="100">';
+        out += '<p class="price__result">$<span class="total__price">'+  datas[key2].cost * cart[key] +'</span></p>'
+        out += '</div>';
+      }
+    }
+  }
+  document.querySelector('.card__content').innerHTML = out;
+  changeCountProduct();
+  deleteProduct();
+  TotalPrice();
+}
+function changeCountProduct(){
+  let input = document.querySelectorAll('.count__price');
+  for(let i = 0;i<input.length;i++){
+    input[i].onchange = function(){
+      let id = input[i].getAttribute('id');
+      let num = Number(id);
+      let valueNumber = Number(input[i].value);
+      cart[num] = valueNumber;
+      if (cart[num] < 1) {
+        delete cart[num];
+      }
+      saveCartToLS();
+      showMiniCart();
+      TotalPrice();
+      showTotalCount();
+    }
+  }
+}
+function saveCartToLS(){
+    localStorage.setItem('cart', JSON.stringify(cart) );
+}
+function deleteProduct(){
+  let deleteButton = document.querySelectorAll('.remove__product');
+  for(let i = 0;i<deleteButton.length;i++){
+    deleteButton[i].onclick = function(){
+      checkCart();
+      let id = this.getAttribute('data-id');
+      delete cart[id];
+      saveCartToLS();
+      showMiniCart();
+      TotalPrice();
+      showTotalCount();
+    }
+  }
+}
+let discount = document.querySelector('.discount__price');
+let c = document.querySelector('.price__total');
+let btnCart = document.querySelector('.promo-button');
+let promoCodeInput = document.querySelector('.cupon-input');
+function checkPromoCode(){
+  btnCart.onclick = function(){
+    promoCodes.forEach( function(element, index) {
+      if(promoCodeInput.value === element.number){
+        let calc = c.innerText / 100;
+        let qw = c.innerText - calc * element.discount;
+        c.innerHTML = qw;
+        btnCart.disabled = true;
+        discount.innerText = element.discount;
+      }
+    })
+  }
+}
+function TotalPrice(){
+  let zero = 0;
+  for(let key in cart){
+    for(key2 in datas){
+      if(datas[key2].id == key){
+        zero += datas[key2].cost * cart[key];
+      }
+    }
+  }
+  c.innerHTML = zero;
+  checkPromoCode();
+}
+TotalPrice();
+function showTotalCount(){
+  let zero = 0;
+  for(let key in cart){
+      for(key2 in datas){
+        if(datas[key2].id == key){
+          zero += datas[key2].cost * cart[key];
+       }
+     }
+    }
+  document.querySelector('.total-price').innerHTML = zero;
+  document.querySelector('.product__total__price').innerHTML = zero;
+}
+showTotalCount();
+let promoCodes = [
+  {number:'2020', discount:40},
+  {number:'3030', discount:90},
+  {number:'1212', discount:20},
+  {number:'9090', discount:10},
+]
+
+// Превращение шапки в фиксированную
+$(window).on('scroll',function(){
+    if($(window).scrollTop() >= ($(window).height() / 2)){
+        $('.header').css({
+          marginBottom: $('.navigation').outerHeight(),
+        });
+        $('.navigation').addClass('active');
+    }else {
+        $('.header').css({
+          marginBottom: '0px',
+        });
+        $('.navigation').removeClass('active');
+    }
+});
